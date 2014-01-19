@@ -6,5 +6,5 @@ Cherno Game Programming - watch http://www.youtube.com/watch?v=GFYT7Lqt1h8&featu
 Best tutorial ever found :)
 
 v36
-![alt tag](https://raw.github.com/tsarnow/cherno/master/docu/36/current_state.png)
+![alt tag](https://raw.github.com/tsarnow/cherno/develop/docu/36/current_state.png)
 
