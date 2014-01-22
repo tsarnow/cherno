@@ -39,7 +39,13 @@ public class Screen {
 			int ya = y + yp;
 			for (int x=0; x<tile.sprite.SIZE; x++) {
 				int xa = x + xp;
-				if (xa < 0 || x >= width || ya < 0 || ya >= height) break;
+				if (xa < -tile.sprite.SIZE || xa >= width || ya < 0 || ya >= height) {
+					break;
+				}
+				if (xa < 0) {
+					// in the tutorial the mechanism is xa = 0;  
+					continue; 	// if x coordinate is out of screen index -> contine (should not be visible)
+				}
 				pixels[xa + ya * width] = tile.sprite.pixels[x + y * tile.sprite.SIZE];
 			}
 		}

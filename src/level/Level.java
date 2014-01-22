@@ -42,9 +42,9 @@ public abstract class Level {
 	public void render(int xScroll, int yScroll, Screen screen) {
 		screen.setOffset(xScroll, yScroll);			// sets the offset for the player
 		int x0 = xScroll >> 4;						// most visible left
-		int x1 = (xScroll + screen.width) >> 4;		// most visible right
+		int x1 = (xScroll + screen.width + 16) >> 4;		// most visible right
 		int y0 = yScroll >> 4;						// most visible top
-		int y1 = (yScroll + screen.height) >> 4; 	// most visible bottom
+		int y1 = (yScroll + screen.height + 16) >> 4; 	// most visible bottom
 
 		// go through all visible tiles in the screen
 		for (int y=y0; y<y1; y++) {
@@ -55,6 +55,7 @@ public abstract class Level {
 	}
 	
 	public Tile getTile(int x, int y) {
+		if (x < 0 || y < 0 || x >= width || y >= height) return Tile.voidTile;
 		if (tiles[x+y*width] == 0) return Tile.grass;
 		return Tile.voidTile;
  	}
