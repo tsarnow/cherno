@@ -1,3 +1,4 @@
+import entity.mob.Player;
 import graphics.Screen;
 import input.Keyboard;
 
@@ -29,9 +30,9 @@ public class Game extends Canvas implements Runnable {
 	private JFrame frame;
 	private Keyboard keyboard;
 	private Level level;
+	private Player player;
 
 	private boolean running = false;
-	private int xOffset=0, yOffset=0; 
 
 	private Screen screen;
 	
@@ -44,9 +45,10 @@ public class Game extends Canvas implements Runnable {
 		
 		screen = new Screen(width, height);
 		frame = new JFrame();
-		level = new RandomLevel(64, 64);
-		
 		keyboard = new Keyboard();
+		level = new RandomLevel(64, 64);
+		player = new Player(keyboard);
+		
 		addKeyListener(keyboard);
 	}
 	
@@ -104,7 +106,10 @@ public class Game extends Canvas implements Runnable {
 		}
 		
 		screen.clear();							// delete old grafic content
-		level.render(xOffset, yOffset, screen);	// renders the level to the screen
+		int xScroll = player.x - (screen.width >> 1);
+		int yScroll = player.y - (screen.height >> 1);
+		level.render(xScroll, yScroll, screen);	// renders the level to the screen
+		player.render(screen);
 		
 		// copy screen to this component
 		for (int i=0; i<pixels.length; i++) {
@@ -119,11 +124,7 @@ public class Game extends Canvas implements Runnable {
 
 	private void update() {
 		keyboard.update();
-		
-		if (keyboard.up) yOffset--;
-		if (keyboard.down) yOffset++;
-		if (keyboard.left) xOffset--;
-		if (keyboard.right) xOffset++;
+		player.update();
 	}
 
 	public static void main(String[] args) {
