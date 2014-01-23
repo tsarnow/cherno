@@ -6,24 +6,24 @@ import graphics.Screen;
 public abstract class Level {
 
 	protected int width, height;
+	protected int[] tilesInt;
 	protected int[] tiles;
 	
 	public Level(int width, int height) {
 		this.width = width; 
 		this.height = height;
-		tiles = new int[width * height];
+		tilesInt = new int[width * height];
 		generateLevel();
 	}
 	
 	public Level(String path) {
 		loadLevel(path);
+		generateLevel();
 	}
 	
-	protected abstract void generateLevel();
+	abstract protected void generateLevel();
 	
-	private void loadLevel(String path) {
-		
-	}
+	abstract protected void loadLevel(String path);
 	
 	public void update() {
 		
@@ -56,7 +56,9 @@ public abstract class Level {
 	
 	public Tile getTile(int x, int y) {
 		if (x < 0 || y < 0 || x >= width || y >= height) return Tile.voidTile;
-		if (tiles[x+y*width] == 0) return Tile.grass;
+		if (tiles[x+y*width] == -0xFF0100) return Tile.grass;
+		if (tiles[x+y*width] == -0x6699cd) return Tile.rock;
+		if (tiles[x+y*width] == -0x100) return Tile.flower;
 		return Tile.voidTile;
  	}
 }

@@ -1,4 +1,3 @@
-import entity.mob.Player;
 import graphics.Screen;
 import input.Keyboard;
 
@@ -12,7 +11,8 @@ import java.awt.image.DataBufferInt;
 import javax.swing.JFrame;
 
 import level.Level;
-import level.RandomLevel;
+import level.SpawnLevel;
+import entity.mob.Player;
 
 /**
  * http://www.youtube.com/watch?v=2SUtcxJYN6k
@@ -46,8 +46,8 @@ public class Game extends Canvas implements Runnable {
 		screen = new Screen(width, height);
 		frame = new JFrame();
 		keyboard = new Keyboard();
-		level = new RandomLevel(64, 64);
-		player = new Player(keyboard);
+		level = new SpawnLevel("/textures/level1.png");
+		player = new Player(10 * 16, 20 * 16, keyboard);
 		
 		addKeyListener(keyboard);
 	}
@@ -94,6 +94,13 @@ public class Game extends Canvas implements Runnable {
 				frame.setTitle(updates + " ups, " + frames + " fps");
 				frames=0;
 				updates=0;
+				try {
+					Thread.sleep(10);
+//					System.out.println("sleep 20");
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		}
 	}

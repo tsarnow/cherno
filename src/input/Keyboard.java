@@ -28,6 +28,7 @@ public class Keyboard implements KeyListener {
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		keys[e.getKeyCode()] = false;
+		if (e.getKeyCode() > 0 && e.getKeyCode() < keys.length)
+			keys[e.getKeyCode()] = false;
 	}
 }
