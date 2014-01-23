@@ -12,11 +12,21 @@ Best tutorial ever found :)
  * Void tile is now blue and correctly rendered
  * added player sprite 
  * player can move in any direction
+* 23.01.14 - player animation + level **episode 57**
+ * level generation on pixel base
+ * new tiles (flower & rock)
+ * smoothed player animation
 
 # Screens
+v57
+![alt tag](https://raw.github.com/tsarnow/cherno/develop/docu/57/current_state.png)
+
 v48
 ![alt tag](https://raw.github.com/tsarnow/cherno/develop/docu/48/current_state.png)
 
 v36
 ![alt tag](https://raw.github.com/tsarnow/cherno/develop/docu/36/current_state.png)
 
+
+# Sprites
+* [Flowers](http://strategywiki.org/wiki/Category:Animal_Crossing:_New_Leaf_flower_images)
