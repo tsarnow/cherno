@@ -16,8 +16,16 @@ Best tutorial ever found :)
  * level generation on pixel base
  * new tiles (flower & rock)
  * smoothed player animation
+* 26.01.14 - level creation **episode 62**
+ * spawn point
+ * tiles from original game
+ * own level created
 
 # Screens
+
+v62
+![alt tag](https://raw.github.com/tsarnow/cherno/master/docu/62/current_state.png)
+
 v57
 ![alt tag](https://raw.github.com/tsarnow/cherno/master/docu/57/current_state.png)
 
@@ -30,3 +38,5 @@ v36
 
 # Sprites
 * [Flowers](http://strategywiki.org/wiki/Category:Animal_Crossing:_New_Leaf_flower_images)
+* [Basics](http://pokemonexperte.de/artikel/images/fanwork_tiled_bild7.png)
+* [more Tiles](http://www.realmofdarkness.net/dq/games/nes/dw4/sprites)

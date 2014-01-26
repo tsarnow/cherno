@@ -12,6 +12,7 @@ import javax.swing.JFrame;
 
 import level.Level;
 import level.SpawnLevel;
+import level.tile.TileCoord;
 import entity.mob.Player;
 
 /**
@@ -46,8 +47,10 @@ public class Game extends Canvas implements Runnable {
 		screen = new Screen(width, height);
 		frame = new JFrame();
 		keyboard = new Keyboard();
-		level = new SpawnLevel("/textures/level1.png");
-		player = new Player(10 * 16, 20 * 16, keyboard);
+		TileCoord playerSpawn = new TileCoord(19,  62);
+//		level = new SpawnLevel("/textures/level1.png");
+		level = Level.spwan;
+		player = new Player(playerSpawn.x(), playerSpawn.y(), keyboard);
 		
 		addKeyListener(keyboard);
 	}

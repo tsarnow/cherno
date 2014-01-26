@@ -63,12 +63,13 @@ public class Player extends Mob {
 		screen.renderPlayer(x - 16, y - 16, sprite, flip);
 	}
 
+	// side animation for player
 	private Sprite moveAnimationPlayer(Sprite stand,
 			Sprite step1, Sprite step2, Sprite step3,
 			Sprite step4) {
 		Sprite sprite = stand;
 		if (walking) {
-			calculateAnimationSpeed();
+			calculateAnimationSpeed(8);
 			if (step == 1) {
 				sprite = step1;
 			} else if (step == 2) {
@@ -83,8 +84,8 @@ public class Player extends Mob {
 		return sprite;
 	}
 
-	private void calculateAnimationSpeed() {
-		if (anim % 10 == 0) {
+	private void calculateAnimationSpeed(int speed) {
+		if (anim % speed == 0) {
 			if (step > 3) {
 				step = 0;
 			}
@@ -96,7 +97,7 @@ public class Player extends Mob {
 			Sprite step1, Sprite step2) {
 		Sprite sprite = stand;
 		if (walking) {
-			calculateAnimationSpeed();
+			calculateAnimationSpeed(10);
 			if (step == 1) {
 				sprite = step1;
 				flip = 0;

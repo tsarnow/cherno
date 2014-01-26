@@ -9,6 +9,8 @@ public abstract class Level {
 	protected int[] tilesInt;
 	protected int[] tiles;
 	
+	public static Level spwan = new SpawnLevel("/textures/level/spawn.png");
+	
 	public Level(int width, int height) {
 		this.width = width; 
 		this.height = height;
@@ -56,9 +58,10 @@ public abstract class Level {
 	
 	public Tile getTile(int x, int y) {
 		if (x < 0 || y < 0 || x >= width || y >= height) return Tile.voidTile;
-		if (tiles[x+y*width] == -0xFF0100) return Tile.grass;
-		if (tiles[x+y*width] == -0x6699cd) return Tile.rock;
-		if (tiles[x+y*width] == -0x100) return Tile.flower;
+		if (tiles[x+y*width] == Tile.col_spwan_floor) return Tile.spawn_floor;
+		if (tiles[x+y*width] == Tile.col_spwan_grass) return Tile.spawn_grass;
+		if (tiles[x+y*width] == Tile.col_spwan_wall1) return Tile.spawn_wall1;
+		if (tiles[x+y*width] == Tile.col_spwan_wall2) return Tile.spawn_wall2;
 		return Tile.voidTile;
  	}
 }
