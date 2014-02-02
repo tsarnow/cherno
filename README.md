@@ -20,8 +20,16 @@ Best tutorial ever found :)
  * spawn point
  * tiles from original game
  * own level created
+* 02.02.14 - shooting with particles **episode 77**
+ * collision detection for player
+ * shooting with mouse aim
+ * bullet hits wall (coolistion)
+ * bullet also triggers particle explosion
 
 # Screens
+
+v77
+![alt tag](https://raw.github.com/tsarnow/cherno/master/docu/77/current_state.png)
 
 v62
 ![alt tag](https://raw.github.com/tsarnow/cherno/master/docu/62/current_state.png)

@@ -11,6 +11,6 @@ public class SpawnWallTile extends Tile {
 	
 	@Override
 	public boolean solid() {
-		return false;
+		return true;
 	}
 }

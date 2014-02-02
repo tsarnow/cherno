@@ -1,5 +1,7 @@
+package game;
 import graphics.Screen;
 import input.Keyboard;
+import input.Mouse;
 
 import java.awt.Canvas;
 import java.awt.Dimension;
@@ -11,7 +13,6 @@ import java.awt.image.DataBufferInt;
 import javax.swing.JFrame;
 
 import level.Level;
-import level.SpawnLevel;
 import level.tile.TileCoord;
 import entity.mob.Player;
 
@@ -23,9 +24,9 @@ import entity.mob.Player;
 public class Game extends Canvas implements Runnable {
 	
 	private static final long serialVersionUID = 1L;
-	public static int width = 300;
-	public static int height = width / 16 * 9;
-	public static int scale = 3;
+	private static int width = 300;
+	private static int height = width / 16 * 9;
+	private static int scale = 3;
 	
 	private Thread thread;
 	private JFrame frame;
@@ -51,8 +52,12 @@ public class Game extends Canvas implements Runnable {
 //		level = new SpawnLevel("/textures/level1.png");
 		level = Level.spwan;
 		player = new Player(playerSpawn.x(), playerSpawn.y(), keyboard);
+		player.init(level);
 		
+		Mouse mouse = new Mouse();
 		addKeyListener(keyboard);
+		addMouseListener(mouse);
+		addMouseMotionListener(mouse);
 	}
 	
 	public synchronized void start() {
@@ -105,6 +110,22 @@ public class Game extends Canvas implements Runnable {
 					e.printStackTrace();
 				}
 			}
+			
+			// pause mode (very buggy)
+			if (keyboard.pause) {
+				boolean trigger = true;
+				while(trigger) {
+					try {
+						Thread.sleep(100);
+						keyboard.update();
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+					if (keyboard.pause) {
+						trigger = false;
+					}
+				}
+			}
 		}
 	}
 
@@ -135,6 +156,15 @@ public class Game extends Canvas implements Runnable {
 	private void update() {
 		keyboard.update();
 		player.update();
+		level.update();
+	}
+	
+	public static int getWindowWidth() {
+		return width * scale;
+	}
+	
+	public static int getWindowHeight() {
+		return height * scale;
 	}
 
 	public static void main(String[] args) {

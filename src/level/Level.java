@@ -1,6 +1,11 @@
 package level;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import level.tile.Tile;
+import entity.Entity;
+import entity.projecttile.Projectile;
 import graphics.Screen;
 
 public abstract class Level {
@@ -8,6 +13,9 @@ public abstract class Level {
 	protected int width, height;
 	protected int[] tilesInt;
 	protected int[] tiles;
+	
+	private List<Entity> entites = new ArrayList<Entity>();
+//	private List<Projectile> projectiles = new ArrayList<Projectile>();
 	
 	public static Level spwan = new SpawnLevel("/textures/level/spawn.png");
 	
@@ -28,7 +36,9 @@ public abstract class Level {
 	abstract protected void loadLevel(String path);
 	
 	public void update() {
-		
+		for (int i=0; i<entites.size(); i++) {
+			entites.get(i).update();
+		}
 	}
 	
 	private void time() {
@@ -54,6 +64,34 @@ public abstract class Level {
 				getTile(x, y).render(x, y, screen);
 			}
 		}
+		
+		for (int i=0; i<entites.size(); i++) {
+			entites.get(i).render(screen);
+		}
+	}
+	
+	public void addEntity(Entity entity) {
+		entity.init(this);
+		entites.add(entity);
+	}
+	
+	public List<Entity> getEntities() {
+		return entites;
+	}
+	
+//	public List<Projectile> getProjectiles() {
+//		return projectiles;
+//	}
+	
+	public boolean entityCollision(double x, double y, double nx, double ny, int size) {
+		boolean solid = false;
+
+		for (int c=0; c<4; c++) {
+			int xt = (((int)x+(int)nx) + c % 2 * size * 2  - 12) / 16;
+			int yt =   (((int)y+(int)ny) + c / 2 * size + 2) / 16;
+			if (getTile(xt, yt).solid()) solid = true;
+		}
+		return solid;
 	}
 	
 	public Tile getTile(int x, int y) {

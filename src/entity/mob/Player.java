@@ -1,8 +1,12 @@
 package entity.mob;
 
+import entity.Entity;
+import entity.projecttile.WizardProjectile;
+import game.Game;
 import graphics.Screen;
 import graphics.Sprite;
 import input.Keyboard;
+import input.Mouse;
 
 public class Player extends Mob {
 	
@@ -12,7 +16,8 @@ public class Player extends Mob {
 	private boolean walking = false;	// is char moving?
 	private int step = 0;				// how many steps are made (1 - 4)
 	private int flip = 0;				// flip the current player sprite?!
-
+	private int fireRate = 0;
+	
 	public Player(Keyboard input) {
 		this.input = input;
 		this.sprite = Sprite.player_forward;
@@ -22,6 +27,7 @@ public class Player extends Mob {
 		this.x = x;
 		this.y = y;
 		this.input = input;
+		fireRate = WizardProjectile.FIRE_RATE;
 	}
 	
 	@Override
@@ -39,12 +45,37 @@ public class Player extends Mob {
 			walking = false;
 			step = 0;
 		}
+		
+		clear();
+		updateShooting();
+	}
+
+	private void clear() {
+		for (int i=0; i<level.getEntities().size(); i++) {
+			Entity e = level.getEntities().get(i);
+			if (e.isRemoved()) {
+				level.getEntities().remove(i);
+			}
+		}
+	}
+
+	private void updateShooting() {
+		if (Mouse.getButton() == 1 && fireRate <= 0) {
+			int dx = Mouse.getX() - Game.getWindowWidth() / 2;
+			int dy = Mouse.getY() - Game.getWindowHeight() / 2;
+			double dir = Math.atan2(dy, dx);
+			
+ 			shoot(x, y, dir);
+ 			fireRate = WizardProjectile.FIRE_RATE;
+		}
 	}
 
 	@Override
 	public void render(Screen screen) {
 		if (anim < 7500) anim++; 
 		else anim = 0;
+		
+		if (fireRate > 0) fireRate--;
 		
 		flip = 0;
 		if (dir == 0) {

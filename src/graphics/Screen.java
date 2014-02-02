@@ -33,24 +33,37 @@ public class Screen {
 	 * @param tile
 	 */
 	public void renderTile(int xp, int yp, Tile tile) {
+		renderTile(xp, yp, tile.sprite);
+	}
+	
+	/**
+	 * Renders a tile to the screen (pixels). 
+	 * @param xp tile position on x screen
+	 * @param yp tile position on y screen
+	 * @param sprite
+	 */
+	public void renderTile(int xp, int yp, Sprite sprite) {
 		xp -= xOffset;
 		yp -= yOffset;
-		for (int y=0; y<tile.sprite.SIZE; y++) {
+		for (int y=0; y<sprite.SIZE; y++) {
 			int ya = y + yp;
-			for (int x=0; x<tile.sprite.SIZE; x++) {
+			for (int x=0; x<sprite.SIZE; x++) {
 				int xa = x + xp;
-				if (xa < -tile.sprite.SIZE || xa >= width || ya < 0 || ya >= height) {
+				if (xa < -sprite.SIZE || xa >= width || ya < 0 || ya >= height) {
 					break;
 				}
 				if (xa < 0) {
 					// in the tutorial the mechanism is xa = 0;  
 					continue; 	// if x coordinate is out of screen index -> contine (should not be visible)
 				}
-				pixels[xa + ya * width] = tile.sprite.pixels[x + y * tile.sprite.SIZE];
+				int col = sprite.pixels[x+y*sprite.SIZE];
+				// pink color on mac Oo
+				if (col != -65281) pixels[xa + ya * width] = col;
+//				pixels[xa + ya * width] = sprite.pixels[x + y * sprite.SIZE];
 			}
 		}
 	}
-	
+
 	public void renderPlayer(int xp, int yp, Sprite sprite, int flip) {
 		xp -= xOffset;
 		yp -= yOffset;
@@ -76,6 +89,22 @@ public class Screen {
 				int col = sprite.pixels[xs+ys*32];
 				// pink color on mac Oo
 				if (col != -327425) pixels[xa + ya * width] = col;
+			}
+		}
+	}
+	
+	public void renderSprite(int xp, int yp, Sprite sprite, boolean fixed) {
+		if (fixed) {
+			xp -= xOffset;
+			yp -= yOffset;
+		}
+		
+		for (int y=0; y<sprite.getWidth(); y++) {
+			int ya = y + yp;
+			for (int x=0; x<sprite.getHeight(); x++) {
+				int xa = x + xp;
+				if (xa < 0 || xa >= width || ya < 0 || ya >= height) continue;
+				pixels[xa + ya * width] = sprite.pixels[x + y * sprite.getWidth()];
 			}
 		}
 	}

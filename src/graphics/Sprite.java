@@ -6,6 +6,8 @@ public class Sprite {
 	private int x, y;
 	public int[] pixels;
 	private SpriteSheet sheet;
+	private int width;
+	private int height;
 	
 	public static Sprite grass = new Sprite(16, 0, 1, SpriteSheet.tiles);
 	public static Sprite flower = new Sprite(16, 0, 6, SpriteSheet.tiles);
@@ -36,9 +38,25 @@ public class Sprite {
 	public static Sprite player_back_1 = new Sprite(32, 1, 6, SpriteSheet.tiles);
 	public static Sprite player_back_2 = new Sprite(32, 2, 6, SpriteSheet.tiles);
 	
+	//Projectile sprite
+	public static Sprite projectile_wizard = new Sprite(16, 0, 0, SpriteSheet.projectile_wizard);
+	
+	//Particle
+	public static Sprite particle_normal = new Sprite(3, 0xAAAAAA);
+	
+	public Sprite (int width, int height, int colour) {
+		SIZE = -1;
+		this.width = width;
+		this.height = height;
+		pixels = new int[width * height];
+		setColour(colour);
+	}
+	
 	public Sprite(int size, int x, int y, SpriteSheet sheet) {
 		this.SIZE = size;
 		pixels = new int[SIZE * SIZE];
+		this.width = size;
+		this.height = size;
 		this.x = x * size;
 		this.y = y * size;
 		this.sheet = sheet;
@@ -48,11 +66,13 @@ public class Sprite {
 	public Sprite(int size, int colour) {
 		this.SIZE = size;
 		pixels = new int[SIZE*SIZE];
+		this.width = size;
+		this.height = size;
 		setColour(colour);
 	}
 	
 	private void setColour(int colour) {
-		for (int i=0; i<SIZE*SIZE; i++) {
+		for (int i=0; i<width*height; i++) {
 			pixels[i] = colour;
 		}
 	}
@@ -63,6 +83,14 @@ public class Sprite {
 				pixels[x+y*SIZE] = sheet.pixels[(this.x + x) + (this.y + y) * sheet.SIZE];
 			}
 		}
+	}
+	
+	public int getWidth() {
+		return width;
+	}
+	
+	public int getHeight() {
+		return height;
 	}
 	
 }
