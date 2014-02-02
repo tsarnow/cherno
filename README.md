@@ -23,7 +23,7 @@ Best tutorial ever found :)
 * 02.02.14 - shooting with particles **episode 77**
  * collision detection for player
  * shooting with mouse aim
- * bullet hits wall (coolistion)
+ * bullet hits wall (collision)
  * bullet also triggers particle explosion
 
 # Screens
