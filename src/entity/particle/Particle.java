@@ -1,23 +1,19 @@
 package entity.particle;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import entity.Entity;
 import graphics.Screen;
 import graphics.Sprite;
 
 public class Particle extends Entity {
 	
-	private List<Particle> particles = new ArrayList<Particle>();
 	private Sprite sprite;
-	
 	private int life;
+	private int time = 0;
 	
 	protected double xx, yy, xa, ya;
 	
 	public Particle(int x, int y, int life) {
-		this.life = life;
+		this.life = life + (random.nextInt(20) - 10);
 		this.x = x;
 		this.y = y;
 		this.xx = x;
@@ -27,16 +23,11 @@ public class Particle extends Entity {
 		this.ya = random.nextGaussian();
 	}
 	
-	public Particle(int x, int y, int life, int amount) {
-		this(x, y, life);
-		particles.add(this);
-		for (int i=0; i<amount - 1; i++) {
-			particles.add(new Particle(x, y, life));
-		}
-	}
-
 	@Override
 	public void update() {
+		time ++;
+		if (time > 5000) time = 0;
+		if (time > life) remove();
 		this.xx += xa;
 		this.yy += ya;
 	}
@@ -44,6 +35,13 @@ public class Particle extends Entity {
 	@Override
 	public void render(Screen screen) {
 		screen.renderSprite((int) xx, (int) yy, sprite, true);
+	}
+
+	public boolean sameRandom(Particle last) {
+		if (xa == last.xa && ya == last.ya) {
+			return true;
+		}
+		return false;
 	}
 
 }

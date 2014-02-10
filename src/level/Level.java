@@ -5,6 +5,7 @@ import java.util.List;
 
 import level.tile.Tile;
 import entity.Entity;
+import entity.particle.Particle;
 import entity.projecttile.Projectile;
 import graphics.Screen;
 
@@ -15,7 +16,6 @@ public abstract class Level {
 	protected int[] tiles;
 	
 	private List<Entity> entites = new ArrayList<Entity>();
-//	private List<Projectile> projectiles = new ArrayList<Projectile>();
 	
 	public static Level spwan = new SpawnLevel("/textures/level/spawn.png");
 	
@@ -72,7 +72,13 @@ public abstract class Level {
 	
 	public void addEntity(Entity entity) {
 		entity.init(this);
-		entites.add(entity);
+		if (entity instanceof Particle) {
+			entites.add(entity);
+		} else if (entity instanceof Projectile) {
+			entites.add(entity);
+		} else {
+			entites.add(entity);
+		}
 	}
 	
 	public List<Entity> getEntities() {
