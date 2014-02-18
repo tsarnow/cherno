@@ -89,12 +89,12 @@ public abstract class Level {
 //		return projectiles;
 //	}
 	
-	public boolean entityCollision(double x, double y, double nx, double ny, int size) {
+	public boolean entityCollision(int x, int y, int size, int xOffset, int yOffset) {
 		boolean solid = false;
 
 		for (int c=0; c<4; c++) {
-			int xt = (((int)x+(int)nx) + c % 2 * size * 2  - 12) / 16;
-			int yt =   (((int)y+(int)ny) + c / 2 * size + 2) / 16;
+			int xt = (x - c % 2 * size + xOffset) >> 4;
+			int yt = (y - c / 2 * size + yOffset) >> 4;
 			if (getTile(xt, yt).solid()) solid = true;
 		}
 		return solid;

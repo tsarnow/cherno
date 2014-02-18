@@ -25,8 +25,17 @@ Best tutorial ever found :)
  * shooting with mouse aim
  * bullet hits wall (collision)
  * bullet also triggers particle explosion
+* 18.02.14 - fantastic particles, player animation and some more live **episode 91**
+ * added dummy player
+ * dummy hase some easy AI
+ * changed animation for player (its more generic)
+ * particles are now blowing exaclty
+ * particles disapear after a while
 
 # Screens
+
+v91
+![alt tag](https://raw.github.com/tsarnow/cherno/master/docu/91/current_state.png)
 
 v77
 ![alt tag](https://raw.github.com/tsarnow/cherno/master/docu/77/current_state.png)
@@ -45,6 +54,7 @@ v36
 
 
 # Sprites
+* [Pokemon](http://digibody.deviantart.com/gallery/?offset=120)
 * [Flowers](http://strategywiki.org/wiki/Category:Animal_Crossing:_New_Leaf_flower_images)
 * [Basics](http://pokemonexperte.de/artikel/images/fanwork_tiled_bild7.png)
 * [more Tiles](http://www.realmofdarkness.net/dq/games/nes/dw4/sprites)

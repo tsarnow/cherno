@@ -3,6 +3,8 @@ package entity;
 import java.util.ArrayList;
 import java.util.List;
 
+import level.Level;
+
 import entity.particle.Particle;
 import graphics.Screen;
 
@@ -19,9 +21,9 @@ public class Spawner extends Entity {
 		Particle last = null;
 		for (int i=0; i<amount; i++) {
 			if (type == Type.PARTICLE) {
-				Particle p;
 				
 				// nextGaussian is not working really well with new random numbers...
+				Particle p;
 				do {
 					p = new Particle(x, y, 50);
 				} while (last != null && p.sameRandom(last));
@@ -47,6 +49,14 @@ public class Spawner extends Entity {
 	public void render(Screen screen) {
 		for (Entity e : entities) {
 			e.render(screen);
+		}
+	}
+	
+	@Override
+	public void init(Level level) {
+		super.init(level);
+		for (Entity e : entities) {
+			e.init(level);
 		}
 	}
 	

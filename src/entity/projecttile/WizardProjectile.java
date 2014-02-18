@@ -24,8 +24,9 @@ public class WizardProjectile extends Projectile {
 
 	@Override
 	public void update() {
-		if (level.entityCollision(x, y, nx, ny, 7)) {
+		if (level.entityCollision((int) (x + nx), (int) (y + ny), 7, 4, 5)) {
 			Entity p = new Spawner((int)x, (int)y, Type.PARTICLE, 20);
+			p.init(level);
 			level.addEntity(p);
 			remove();
 		}

@@ -3,8 +3,10 @@ package entity.mob;
 import entity.Entity;
 import entity.projecttile.WizardProjectile;
 import game.Game;
+import graphics.AnimatedSprite;
 import graphics.Screen;
 import graphics.Sprite;
+import graphics.SpriteSheet;
 import input.Keyboard;
 import input.Mouse;
 
@@ -13,37 +15,58 @@ public class Player extends Mob {
 	private Keyboard input;
 	private Sprite sprite;
 	private int anim = 0;				// animation counter (0 - 59) 
-	private boolean walking = false;	// is char moving?
-	private int step = 0;				// how many steps are made (1 - 4)
 	private int flip = 0;				// flip the current player sprite?!
 	private int fireRate = 0;
+	
+	private AnimatedSprite down = new AnimatedSprite(SpriteSheet.player_down, 0, 0, 5);
+	private AnimatedSprite up = new AnimatedSprite(SpriteSheet.player_up, 0, 0, 5);
+	private AnimatedSprite left = new AnimatedSprite(SpriteSheet.player_left, 0, 0, 5);
+	private AnimatedSprite right = new AnimatedSprite(SpriteSheet.player_right, 0, 0, 5);
+	
+	private AnimatedSprite animSprite = null;
 	
 	public Player(Keyboard input) {
 		this.input = input;
 		this.sprite = Sprite.player_forward;
+		animSprite = down;
 	}
 	
 	public Player(int x, int y, Keyboard input) {
 		this.x = x;
 		this.y = y;
 		this.input = input;
+		animSprite = down;
 		fireRate = WizardProjectile.FIRE_RATE;
 	}
 	
 	@Override
 	public void update() {
+//		animSprite = right;
+		if (walking) animSprite.update();
+		else animSprite.setFrame(0);
 		int xa=0, ya=0;
-		if (input.up) ya--;
-		if (input.down) ya++;
-		if (input.left) xa--;
-		if (input.right) xa++;
+		if (input.up) {
+			animSprite = up;
+			ya--;
+		}
+		if (input.down) {
+			animSprite = down;
+			ya++;
+		}
+		if (input.left) {
+			animSprite = left;
+			xa--;
+		}
+		if (input.right) {
+			animSprite = right;
+			xa++;
+		}
 		
 		if (xa != 0 || ya != 0) { 
 			move (xa, ya);
 			walking = true;
 		} else {			
 			walking = false;
-			step = 0;
 		}
 		
 		clear();
@@ -77,71 +100,7 @@ public class Player extends Mob {
 		
 		if (fireRate > 0) fireRate--;
 		
-		flip = 0;
-		if (dir == 0) {
-			sprite = moveAnimationPlayer(Sprite.player_back, Sprite.player_back_1, Sprite.player_back_2);
-		}
-		if (dir == 1) {
-			sprite = moveAnimationPlayer(Sprite.player_side, Sprite.player_side_1, Sprite.player_side_2, Sprite.player_side_3, Sprite.player_side_4);
-			flip = 1;
-		}
-		if (dir == 2) {
-			sprite = moveAnimationPlayer(Sprite.player_forward, Sprite.player_forward_1, Sprite.player_forward_2);
-		}
-		if (dir == 3) {
-			sprite = moveAnimationPlayer(Sprite.player_side, Sprite.player_side_1, Sprite.player_side_2, Sprite.player_side_3, Sprite.player_side_4);
-		}
-		screen.renderPlayer(x - 16, y - 16, sprite, flip);
-	}
-
-	// side animation for player
-	private Sprite moveAnimationPlayer(Sprite stand,
-			Sprite step1, Sprite step2, Sprite step3,
-			Sprite step4) {
-		Sprite sprite = stand;
-		if (walking) {
-			calculateAnimationSpeed(8);
-			if (step == 1) {
-				sprite = step1;
-			} else if (step == 2) {
-				sprite = step2;
-			} else if (step == 3) {
-				sprite = step3;
-			} else {
-				sprite = step4;
-			}
-		}
-		
-		return sprite;
-	}
-
-	private void calculateAnimationSpeed(int speed) {
-		if (anim % speed == 0) {
-			if (step > 3) {
-				step = 0;
-			}
-			step++;
-		}
-	}
-
-	private Sprite moveAnimationPlayer(Sprite stand,
-			Sprite step1, Sprite step2) {
-		Sprite sprite = stand;
-		if (walking) {
-			calculateAnimationSpeed(10);
-			if (step == 1) {
-				sprite = step1;
-				flip = 0;
-			} else if (step == 2) {
-				sprite = step2;
-			} else if (step == 3) {
-				sprite = step2;
-				flip = 1;
-			} else {
-				sprite = step1;
-				flip = 1;				
-			}
-		}
-		return sprite;
+		sprite = animSprite.getSprite();
+		screen.renderMob(x - 16, y - 16, sprite, flip);
 	}
 }

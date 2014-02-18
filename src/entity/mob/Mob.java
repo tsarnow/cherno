@@ -10,8 +10,12 @@ import graphics.Sprite;
 public abstract class Mob extends Entity {
 
 	protected Sprite sprite;
-	protected int dir = 0;				// direction of moving
-	protected boolean moving = false;
+	protected Direction dir = Direction.DOWN;				// direction of moving
+	protected boolean walking = false;
+	
+	protected enum Direction {
+		UP, DOWN, LEFT, RIGHT;
+	}
 	
 	public void move(int xa, int ya) {
 		
@@ -21,10 +25,10 @@ public abstract class Mob extends Entity {
 			return;
 		}
 		
-		if (xa > 0) dir = 1;
-		if (xa < 0) dir = 3;
-		if (ya > 0) dir = 2;
-		if (ya < 0) dir = 0;
+		if (xa > 0) dir = Direction.RIGHT;
+		if (xa < 0) dir = Direction.LEFT;
+		if (ya > 0) dir = Direction.DOWN;
+		if (ya < 0) dir = Direction.UP;
 		
 		if (!collision(xa, ya)) {
 			x += xa;
@@ -32,12 +36,7 @@ public abstract class Mob extends Entity {
 		} 
 	}
 	
-	@Override
-	public void update() {
-		
-	}
-	
-	abstract public void render(Screen screen);
+	public abstract void render(Screen screen);
 	
 	protected void shoot(int x, int y, double dir) {
 		
