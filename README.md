@@ -27,10 +27,10 @@ Best tutorial ever found :)
  * bullet also triggers particle explosion
 * 18.02.14 - fantastic particles, player animation and some more live **episode 91**
  * added dummy player
- * dummy hase some easy AI
+ * dummy has some easy AI
  * changed animation for player (its more generic)
- * particles are now blowing exaclty
- * particles disapear after a while
+ * particles are now blowing exactly
+ * particles disappear after a while
 
 # Screens
 

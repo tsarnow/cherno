@@ -1,5 +1,8 @@
 package entity.mob;
 
+import java.util.List;
+
+import level.Level;
 import entity.Entity;
 import entity.projecttile.WizardProjectile;
 import game.Game;
@@ -42,24 +45,25 @@ public class Player extends Mob {
 	@Override
 	public void update() {
 //		animSprite = right;
+		
 		if (walking) animSprite.update();
 		else animSprite.setFrame(0);
 		int xa=0, ya=0;
 		if (input.up) {
 			animSprite = up;
-			ya--;
+			ya-=2;
 		}
 		if (input.down) {
 			animSprite = down;
-			ya++;
+			ya+=2;
 		}
 		if (input.left) {
 			animSprite = left;
-			xa--;
+			xa-=2;
 		}
 		if (input.right) {
 			animSprite = right;
-			xa++;
+			xa+=2;
 		}
 		
 		if (xa != 0 || ya != 0) { 
@@ -92,7 +96,7 @@ public class Player extends Mob {
  			fireRate = WizardProjectile.FIRE_RATE;
 		}
 	}
-
+	
 	@Override
 	public void render(Screen screen) {
 		if (anim < 7500) anim++; 
@@ -101,6 +105,6 @@ public class Player extends Mob {
 		if (fireRate > 0) fireRate--;
 		
 		sprite = animSprite.getSprite();
-		screen.renderMob(x - 16, y - 16, sprite, flip);
+		screen.renderSprite(x, y, sprite, flip);
 	}
 }

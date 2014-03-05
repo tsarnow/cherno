@@ -9,7 +9,7 @@ import level.Level;
 
 public abstract class Entity {
 
-	public int x, y;
+	protected int x, y;
 	private boolean removed = false;
 	protected Level level;
 	protected final Random random = new Random(new Date().getTime());
@@ -30,5 +30,13 @@ public abstract class Entity {
 	
 	public void init(Level level) {
 		this.level = level;
+	}
+	
+	public int getX() {
+		return x;
+	}
+	
+	public int getY() {
+		return y;
 	}
 }

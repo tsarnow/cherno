@@ -5,6 +5,7 @@ import java.util.List;
 
 import level.tile.Tile;
 import entity.Entity;
+import entity.mob.Player;
 import entity.particle.Particle;
 import entity.projecttile.Projectile;
 import graphics.Screen;
@@ -15,7 +16,8 @@ public abstract class Level {
 	protected int[] tilesInt;
 	protected int[] tiles;
 	
-	private List<Entity> entites = new ArrayList<Entity>();
+	private List<Entity> entities = new ArrayList<Entity>();
+	private List<Player> players = new ArrayList<Player>();
 	
 	public static Level spwan = new SpawnLevel("/textures/level/spawn.png");
 	
@@ -36,13 +38,21 @@ public abstract class Level {
 	abstract protected void loadLevel(String path);
 	
 	public void update() {
-		for (int i=0; i<entites.size(); i++) {
-			entites.get(i).update();
+		for (int i=0; i<entities.size(); i++) {
+			entities.get(i).update();
 		}
 	}
 	
 	private void time() {
 		
+	}
+	
+	public List<Player> getPlayers() {
+		return players;
+	}
+	
+	public Player getClientPlayer() {
+		return players.get(0);
 	}
 	
 	/** 
@@ -65,29 +75,53 @@ public abstract class Level {
 			}
 		}
 		
-		for (int i=0; i<entites.size(); i++) {
-			entites.get(i).render(screen);
+		for (int i=0; i<entities.size(); i++) {
+			entities.get(i).render(screen);
 		}
 	}
 	
 	public void addEntity(Entity entity) {
 		entity.init(this);
 		if (entity instanceof Particle) {
-			entites.add(entity);
+			entities.add(entity);
 		} else if (entity instanceof Projectile) {
-			entites.add(entity);
+			entities.add(entity);
+		} else if (entity instanceof Player) {
+			players.add((Player) entity);
 		} else {
-			entites.add(entity);
+			entities.add(entity);
 		}
 	}
 	
 	public List<Entity> getEntities() {
-		return entites;
+		return entities;
 	}
 	
-//	public List<Projectile> getProjectiles() {
-//		return projectiles;
-//	}
+	public List<Entity> getPlayers(Entity e, int radius) {
+		return getEntities(players, e, radius);
+	}
+
+	public List<Entity> getEntities(Entity e, int radius) {
+		return getEntities(entities, e, radius);
+	}
+	
+	private <T extends Entity> List<Entity> getEntities(List<T> entities, Entity e, int radius) {
+		List<Entity> result = new ArrayList<Entity>();
+		int ex = e.getX();
+		int ey = e.getY();
+		for (int i=0; i<entities.size(); i++) {
+			Entity entity = entities.get(0);
+			int x = entity.getX();
+			int y = entity.getY();
+			
+			int dx = (x - ex) * (x - ex);
+			int dy = (y - ey) * (y - ey);
+			
+			if ((radius * radius) >= (dx + dy)) result.add(entity);
+		}
+		
+		return result;
+	}
 	
 	public boolean entityCollision(int x, int y, int size, int xOffset, int yOffset) {
 		boolean solid = false;

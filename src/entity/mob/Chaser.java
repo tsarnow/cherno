@@ -1,12 +1,15 @@
 package entity.mob;
 
+import java.util.List;
+
+import entity.Entity;
+
 import graphics.AnimatedSprite;
 import graphics.Screen;
-import graphics.Sprite;
 import graphics.SpriteSheet;
 
-public class Dummy extends Mob {
-	
+public class Chaser extends Mob {
+
 	private AnimatedSprite down = new AnimatedSprite(SpriteSheet.dummy_down, 0, 0, 6);
 	private AnimatedSprite up = new AnimatedSprite(SpriteSheet.dummy_up, 0, 0, 6);
 	private AnimatedSprite left = new AnimatedSprite(SpriteSheet.dummy_left, 0, 0, 6);
@@ -14,36 +17,23 @@ public class Dummy extends Mob {
 	
 	private AnimatedSprite animSprite = down;
 	
-	private int time = 0;
 	private int xa = 0; 
 	private int ya = 0;
 	
-	public Dummy(int x, int y) {
+	public Chaser(int x, int y) {
 		this.x = x << 4;
 		this.y = y << 4;
-		sprite = Sprite.dummy;
+		sprite = animSprite.getSprite();
 	}
-
+	
 	@Override
 	public void render(Screen screen) {
 		sprite = animSprite.getSprite();
-		screen.renderSprite(x, y, sprite, 0);
+		screen.renderMob(x - 16, y - 16, this);
 	}
 
 	@Override
 	public void update() {
-		time++;
-		if (time > 3600) time = 0; // limit for 1 minute
-		
-		if (time % (random.nextInt(50) + 30) == 0) {
-			xa = random.nextInt(3) - 1;
-			ya = random.nextInt(3) - 1;
-			if (random.nextInt(3) == 0) {
-				xa = 0;
-				ya = 0;
-			}
-		}
-		
 		if (walking) animSprite.update();
 		else animSprite.setFrame(0);
 		
@@ -61,7 +51,21 @@ public class Dummy extends Mob {
 			animSprite = right;
 			dir = Direction.RIGHT;
 		}
-		
+		move();
+	}
+
+	private void move() {
+		xa = 0;
+		ya = 0;
+
+		List<Entity> players = level.getPlayers(this, 50);
+		if (players.size() > 0) {
+			Player player = (Player) players.get(0);
+			if (x < player.getX() + 20) xa++;
+			if (x > player.getX() - 20) xa--;
+			if (y < player.getY() + 20) ya++;
+			if (y > player.getY() - 20) ya--;
+		}
 		if (xa != 0 || ya != 0) { 
 			move (xa, ya);
 			walking = true;

@@ -8,6 +8,7 @@ public class Sprite {
 	protected SpriteSheet sheet;
 	private int width;
 	private int height;
+	public final int TRANSPARENT_COL;
 	
 	public static Sprite grass = new Sprite(16, 0, 1, SpriteSheet.tiles);
 	public static Sprite flower = new Sprite(16, 0, 6, SpriteSheet.tiles);
@@ -46,28 +47,29 @@ public class Sprite {
 	
 	public static Sprite dummy = new Sprite(32, 0, 0, SpriteSheet.dummy_down);
 	
-	protected Sprite(SpriteSheet sheet, int width, int height) {
+	public Sprite(int width, int height, int[] pixels, int transparentColor) {
 		if (width == height) SIZE = width;
 		else SIZE = -1;
-		this.sheet = sheet;
+		this.TRANSPARENT_COL = transparentColor;
 		this.width = width;
 		this.height = height;
-		this.pixels = sheet.pixels;
+		this.pixels = pixels;
+	}
+	
+	protected Sprite(SpriteSheet sheet, int width, int height) {
+		this(width, height, sheet.pixels, sheet.TRANSPARENT_COLOR);
+		this.sheet = sheet;
 	}
 	
 	public Sprite (int width, int height, int colour) {
-		SIZE = -1;
-		this.width = width;
-		this.height = height;
+		this(width, height, null, -1);
 		pixels = new int[width * height];
 		setColour(colour);
 	}
 	
 	public Sprite(int size, int x, int y, SpriteSheet sheet) {
-		this.SIZE = size;
+		this(size, size, null, sheet.TRANSPARENT_COLOR);
 		pixels = new int[SIZE * SIZE];
-		this.width = size;
-		this.height = size;
 		this.x = x * size;
 		this.y = y * size;
 		this.sheet = sheet;
@@ -75,19 +77,13 @@ public class Sprite {
 	}
 	
 	public Sprite(int size, int colour) {
-		this.SIZE = size;
+		this(size, size, null, -1);
 		pixels = new int[SIZE*SIZE];
-		this.width = size;
-		this.height = size;
 		setColour(colour);
 	}
 	
-	public Sprite(int[] pixels, int width, int height) {
-		if (width == height) SIZE = width;
-		else SIZE = -1;
-		this.width = width;
-		this.height = height;
-		this.pixels = pixels;
+	public Sprite(int width, int height, int[] pixels) {
+		this(width, height, pixels, -1);
 	}
 
 	private void setColour(int colour) {

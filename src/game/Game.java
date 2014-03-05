@@ -52,7 +52,7 @@ public class Game extends Canvas implements Runnable {
 //		level = new SpawnLevel("/textures/level1.png");
 		level = Level.spwan;
 		player = new Player(playerSpawn.x(), playerSpawn.y(), keyboard);
-		player.init(level);
+		level.addEntity(player);
 		
 		Mouse mouse = new Mouse();
 		addKeyListener(keyboard);
@@ -78,17 +78,18 @@ public class Game extends Canvas implements Runnable {
 	@Override
 	public void run() {
 		long lastTime = System.nanoTime();
-		long timer = System.currentTimeMillis();
-		final double ns = 1000000000.0 / 60.0;
+		long timer = System.currentTimeMillis();	// time in ms
+		final double ns = 1000000000.0 / 60.0;		// 1 ns = 10e-9 s - ns = 1s / 60
 		double delta = 0;
 		int frames = 0;
 		int updates = 0;
-		requestFocus();
+		requestFocus();			// start game with focus
 		
 		while (running) {
-			long now = System.nanoTime();
-			delta += (now - lastTime) / ns;
+			long now = System.nanoTime();		// time in ns
+			delta += (now - lastTime) / ns;		// ns distance / 60
 			lastTime = now;
+			
 			while (delta >= 1) {
 				update();
 				updates++;
@@ -96,19 +97,19 @@ public class Game extends Canvas implements Runnable {
 			}
 			render();
 			frames++;
+
+			try {
+				Thread.sleep(10);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 			
+			// every second
 			if (System.currentTimeMillis() - timer > 1000) {
 				timer += 1000;
 				frame.setTitle(updates + " ups, " + frames + " fps");
 				frames=0;
 				updates=0;
-				try {
-					Thread.sleep(10);
-//					System.out.println("sleep 20");
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
 			}
 			
 			// pause mode (very buggy)
@@ -137,8 +138,8 @@ public class Game extends Canvas implements Runnable {
 		}
 		
 		screen.clear();							// delete old grafic content
-		int xScroll = player.x - (screen.width >> 1);
-		int yScroll = player.y - (screen.height >> 1);
+		int xScroll = player.getX() - (screen.width >> 1);
+		int yScroll = player.getY() - (screen.height >> 1);
 		level.render(xScroll, yScroll, screen);	// renders the level to the screen
 		player.render(screen);
 		
